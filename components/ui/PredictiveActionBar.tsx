@@ -39,7 +39,7 @@ export function PredictiveActionBar({
               onClick={() => {
                 // Prefer onActionClick with intent string, fall back to onClick
                 if (onActionClick && action.input) {
-                  onActionClick(action.input, action.label);
+                  onActionClick(action.input);
                 } else if (action.onClick) {
                   action.onClick();
                 }
