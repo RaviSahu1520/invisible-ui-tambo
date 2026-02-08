@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Generative UI: Intent-Driven Interface Orchestration
 
-## Getting Started
+## Problem Statement
 
-First, run the development server:
+Traditional UIs are static. Users navigate predetermined interfaces to accomplish tasks. Even "smart" applications are hard-coded to respond in fixed ways.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**What if UI could generate itself based on intent?**
+
+## Solution: Invisible / Intent-Driven UI
+
+This project demonstrates **Generative UI**—an interface that:
+
+1. **Starts Empty** - No navigation, header, or controls until user expresses intent
+2. **Evolves Incrementally** - Components appear, change, or disappear based on user needs
+3. **Orchestrated by AI** - An AI decision layer determines what UI to render
+4. **Remembers Context** - References like "this", "that", "the chart above" work naturally
+
+## What is Generative UI?
+
+Generative UI is a paradigm where the AI acts as a **UI Orchestrator**, not a chatbot. The AI:
+
+- Receives user input + current UI state
+- Returns JSON decisions: `{ render, remove, update }`
+- The UI engine executes these decisions to mutate the interface
+
+The user never sees a chat conversation—they see an interface that responds to their intent.
+
+## Why Tambo is Essential
+
+Tambo SDK provides the decision layer for Generative UI:
+
+- **Component Registry**: Register React components for AI rendering
+- **Intent Understanding**: AI analyzes user needs against available UI
+- **Structured Decisions**: Returns JSON-only UI actions, not text responses
+- **Context Awareness**: Maintains conversation context for reference resolution
+
+## Architecture
+
+```
+User Input
+    ↓
+Intent Resolution (resolve "this", "that")
+    ↓
+AI Orchestrator (Tambo/Simulated)
+    ↓
+UI State Engine (dispatch render/remove/update)
+    ↓
+React Re-render (UIRenderer)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Key Components:**
+- `OrchestratorClient` - Main UI container
+- `ui-orchestrator.ts` - Intent processing and AI decisions
+- `ui-state-engine.ts` - Framework-agnostic state management
+- `intent-memory.ts` - Reference tracking for natural language
+- `data-store.ts` - Hybrid mock/user data layer
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Start the app: `npm run dev`
+2. The screen appears empty (just a minimal input prompt)
+3. Type: "Show me the salary comparison between last month and current month"
+4. Watch: InputForm appears to collect missing data, then ChartView and SummaryCards render
+5. Try: "Clear" → GuardrailModal confirms
+6. Try: "Export this" → (reference resolution triggers export actions)
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 16** - App Router for SSR
+- **React 19** - UI rendering
+- **Tambo SDK** - AI decision layer
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is a hackathon demonstration of Generative UI principles.
+Production deployment would replace the simulated AI with actual Tambo API calls.
